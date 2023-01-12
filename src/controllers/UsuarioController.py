@@ -9,7 +9,9 @@ def findSort():
     mydoc = mycol.find({}, {
         "_id": 0,
         "nome": 1,
-        "email": 1
+        "email": 1,
+        "Compra": 1,
+        "Favorito": 1
     }).sort("nome")
     for x in mydoc:
         print(x)
@@ -56,3 +58,29 @@ def insert(name, email):
     x = mycol.insert_one(mydict)
     print(x.inserted_id)
     print("Usuario cadastrado com sucesso.")
+
+def insertFavoritos(nomeProduto, emailUsuario):
+    mydb = config.connect()
+    columnUsuarios = mydb.Usuario
+    columnProdutos = mydb.Produto
+    myqueryUsers = { "email": emailUsuario }
+    myqueryProdutos = { "nome": nomeProduto }
+    findUsuario = columnUsuarios.find(myqueryUsers)
+    findProduto = columnProdutos.find(myqueryProdutos)
+    createDictUser = {}
+    createDictProduto = {}
+
+    for usuario in findUsuario:
+        createDictUser.update(usuario)
+    
+    for produto in findProduto:
+        createDictProduto.update(produto)
+
+    if not createDictUser or not createDictProduto:
+        print("Usuario ou Produto não existe, por favor coloque um existente")
+    else:
+    
+        newvalues = { "$addToSet":   { "Favorito": produto } }
+        update = columnUsuarios.update_one(myqueryUsers, newvalues)
+        print("Favorito inserido no usuario com sucesso!")
+        

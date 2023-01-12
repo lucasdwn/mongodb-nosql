@@ -31,12 +31,12 @@ def delete(id):
     mycol.delete_one(myquery)
     print("Compra deletada com sucesso.")
 
-def insert(nomeProduto, nomeUsuario):
+def insert(nomeProduto, emailUsuario):
     mydb = config.connect()
     columnUsuarios = mydb.Usuario
     columnProdutos = mydb.Produto
     columnCompras = mydb.Compra
-    myqueryUsers = { "nome": nomeUsuario }
+    myqueryUsers = { "email": emailUsuario }
     myqueryProdutos = { "nome": nomeProduto }
     findUsuario = columnUsuarios.find(myqueryUsers)
     findProduto = columnProdutos.find(myqueryProdutos)
@@ -55,5 +55,19 @@ def insert(nomeProduto, nomeUsuario):
             "Usuario": createDictUser,
             "Produto": createDictProduto
         }
+        
         insert = columnCompras.insert_one(novaCompra)
+        
         print("Compra Inserido com ID: ", insert.inserted_id)
+       
+        myqueryCompra = {"_id" : insert.inserted_id}
+        findCompra = columnCompras.find(myqueryCompra)
+
+        createDictCompra = {}
+
+        for compra in findCompra:
+            createDictCompra.update(compra)
+
+        newvalues = { "$addToSet":   { "Compra": createDictCompra } }
+        update = columnUsuarios.update_one(myqueryUsers, newvalues)
+        print("Compra inserida no usuario com sucesso!")

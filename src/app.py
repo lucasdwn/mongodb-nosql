@@ -48,7 +48,8 @@ def usuarioStart():
         print("==== 2 - BUSCAR USUARIO ====")
         print("==== 3 - NOVO USUARIO ====")
         print("==== 4 - EDITAR USUARIO ====")
-        print("==== 5 - DELETAR USUARIO ====")
+        print("==== 5 - ADICIONAR FAVORITOS ====")
+        print("==== 6 - DELETAR USUARIO ====")
         print("==== CLS - CLEAR CONSOLE ====")
         print("==== X - FECHAR ====")
         print("===========================\n")
@@ -69,6 +70,11 @@ def usuarioStart():
             novoNome = input("Novo nome: ")
             usuarioController.update(email, novoNome)
         elif select == "5":
+            print("Insira o e-mail do usuario que deseja adicionar favorito e o nome do Produto")
+            emailUser = input("E-mail do usuario: ")
+            nomeProduto = input("Nome do produto: ")    
+            usuarioController.insertFavoritos(nomeProduto, emailUser)
+        elif select == "6":
             email = input("Insira o e-mail do usuario que deseja deletar: ")
             usuarioController.delete(email)
         elif select == "CLS":
@@ -185,10 +191,10 @@ def compraStart():
             id = input("Digite o id da compra que deseja buscar: ")
             compraController.findQuery(id)
         elif select == "3":
-            print("Insira nome do produto e do usuario: ")
+            print("Insira nome do produto e o e-mail do usuario")
             nomeProduto = input("Nome do produto: ")
-            nomeUsuario = input("Nome do usuario: ")
-            compraController.insert(nomeProduto, nomeUsuario)
+            emailUsuario = input("E-mail do usuario: ")
+            compraController.insert(nomeProduto, emailUsuario)
         elif select == "4":
             nome = input("Insira o id da compra que deseja deletar: ")
             compraController.delete(nome)
