@@ -3,12 +3,27 @@ import controllers.ProdutoController as produtoController
 import controllers.UsuarioController as usuarioController
 import controllers.VendedorController as vendedorController
 import controllers.CompraController as compraController
+import controllers.RedisController as redisController
 
 
 def clearConsole(): return os.system('cls'
                                      if os.name in ('nt', 'dos') else 'clear')
 
 # $- OPÇÕES INICIAIS
+
+def main():
+    clearConsole()
+    print("==== 1 - MONGODB ====")
+    print("==== 2 - REDIS ====")
+    select = input("Qual opção deseja?: ")
+    if select == "1":
+        mongoStart()
+    elif select == "2":
+        redisStart()
+    else:
+        print("Opção Não entendida")
+
+# MONGODB START
 def mongoStart():
     clearConsole()
     on = True
@@ -35,7 +50,10 @@ def mongoStart():
             clearConsole()
             return mongoStart()
         elif select == "X":
-            on = False
+            clearConsole()
+            return main()
+        else:
+            print("Opção Não entendida")
 
 # 1- OPÇÕES DE USUARIOS
 def usuarioStart():
@@ -83,6 +101,8 @@ def usuarioStart():
         elif select == "X":
             on = False
             mongoStart()
+        else:
+            print("Opção Não entendida")
 
 
 # 2- OPÇÕES DE VENDEDOR
@@ -125,6 +145,8 @@ def vendedorStart():
         elif select == "X":
             on = False
             mongoStart()
+        else:
+            print("Opção Não entendida")
 
 
 # 3- OPÇÕES DE PRODUTO
@@ -168,6 +190,8 @@ def produtoStart():
         elif select == "X":
             on = False
             mongoStart()
+        else:
+            print("Opção Não entendida")    
 
 
 # 4- OPÇÕES DE COMPRA
@@ -204,6 +228,36 @@ def compraStart():
         elif select == "X":
             on = False
             mongoStart()
+        else:
+            print("Opção Não entendida")
+
+# REDIS START
+
+def redisStart():
+    clearConsole()
+    on = True
+    while on:
+        print("\n===========================")
+        print("==== OPÇÕES ====")
+        print("==== 1 - IMPORTAR PRODUTO ====")
+        print("==== 2 - EDITAR PRODUTO ====")
+        print("==== 3 - EXPORTAR PRODUTO ====")
+        print("==== CLS - CLEAR CONSOLE ====")
+        print("==== X - FECHAR ====")
+        print("===========================\n")
+        select = input("Qual opção deseja?: ")
+        if select == "1":
+            redisController.importProduto()
+        elif select == "2":
+            redisController.getUserName()
+        elif select == "CLS":
+            clearConsole()
+            return redisStart()
+        elif select == "X":
+            on = False
+            main()
+        else:
+            print("Opção Não entendida")
 
 # INICIANDO OPÇÕES
-mongoStart()
+main()
