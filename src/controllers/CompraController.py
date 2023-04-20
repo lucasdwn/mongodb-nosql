@@ -8,7 +8,9 @@ def findSort():
     print("===========================\n")
     mydoc = mycol.find().sort("_id")
     for x in mydoc:
+        print("\n==========================")
         print(x)
+        print("==========================\n")
 
 def findQuery(id):
     mydb = config.connect()
@@ -19,7 +21,9 @@ def findQuery(id):
     myquery = { "_id": id }
     mydoc = mycol.find(myquery)
     for x in mydoc:
+        print("\n==========================")
         print(x)
+        print("==========================\n")
 
 def delete(id):
     mydb = config.connect()
@@ -31,13 +35,13 @@ def delete(id):
     mycol.delete_one(myquery)
     print("Compra deletada com sucesso.")
 
-def insert(nomeProduto, emailUsuario):
+def insert(codigoProduto, emailUsuario):
     mydb = config.connect()
     columnUsuarios = mydb.Usuario
     columnProdutos = mydb.Produto
     columnCompras = mydb.Compra
     myqueryUsers = { "email": emailUsuario }
-    myqueryProdutos = { "nome": nomeProduto }
+    myqueryProdutos = { "codigo": codigoProduto }
     findUsuario = columnUsuarios.find(myqueryUsers)
     findProduto = columnProdutos.find(myqueryProdutos)
     createDictUser = {}

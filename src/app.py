@@ -90,8 +90,8 @@ def usuarioStart():
         elif select == "5":
             print("Insira o e-mail do usuario que deseja adicionar favorito e o nome do Produto")
             emailUser = input("E-mail do usuario: ")
-            nomeProduto = input("Nome do produto: ")    
-            usuarioController.insertFavoritos(nomeProduto, emailUser)
+            codigoProduto = input("Codigo do produto: ")    
+            usuarioController.insertFavoritos(codigoProduto, emailUser)
         elif select == "6":
             email = input("Insira o e-mail do usuario que deseja deletar: ")
             usuarioController.delete(email)
@@ -171,19 +171,19 @@ def produtoStart():
             nome = input("Digite o nome do produto que deseja buscar: ")
             produtoController.findQuery(nome)
         elif select == "3":
-            print("Insira nome, preço e vendedor do produto: ")
+            print("Insira código, nome, preço e vendedor do novo produto: ")
+            codigo = input("codigo: ")
             nome = input("nome: ")
             preco = input("preço: ")
             vendedor = input("Nome do vendedor: ")
-            produtoController.insert(nome, preco, vendedor)
+            produtoController.insert(codigo, nome, preco, vendedor)
         elif select == "4":
-            print("Insira nome do produto que deseja editar e o novo preço.")
-            nome = input("nome: ")
-            novoPreco = input("Novo preço: ")
-            produtoController.update(nome, novoPreco)
+            print("Insira código do produto que deseja editar")
+            codigo = input("codigo: ")
+            produtoController.update(codigo)
         elif select == "5":
-            nome = input("Insira o nome do produto que deseja deletar: ")
-            produtoController.delete(nome)
+            codigo = input("Insira o codigo do produto que deseja deletar: ")
+            produtoController.delete(codigo)
         elif select == "CLS":
             clearConsole()
             return mongoStart()
@@ -216,9 +216,9 @@ def compraStart():
             compraController.findQuery(id)
         elif select == "3":
             print("Insira nome do produto e o e-mail do usuario")
-            nomeProduto = input("Nome do produto: ")
+            codigoProduto = input("Codigo do produto: ")
             emailUsuario = input("E-mail do usuario: ")
-            compraController.insert(nomeProduto, emailUsuario)
+            compraController.insert(codigoProduto, emailUsuario)
         elif select == "4":
             nome = input("Insira o id da compra que deseja deletar: ")
             compraController.delete(nome)
@@ -239,17 +239,25 @@ def redisStart():
     while on:
         print("\n===========================")
         print("==== OPÇÕES ====")
-        print("==== 1 - IMPORTAR PRODUTO ====")
-        print("==== 2 - EDITAR PRODUTO ====")
-        print("==== 3 - EXPORTAR PRODUTO ====")
+        print("==== 1 - LISTAR PRODUTOS ====")
+        print("==== 2 - IMPORTAR PRODUTO ====")
+        print("==== 3 - EDITAR PRODUTO ====")
+        print("==== 4 - EXPORTAR PRODUTO ====")
+        print("==== 5 - DELETAR PRODUTO ====")
         print("==== CLS - CLEAR CONSOLE ====")
         print("==== X - FECHAR ====")
         print("===========================\n")
         select = input("Qual opção deseja?: ")
         if select == "1":
-            redisController.importProduto()
+            redisController.listProdutos()
         elif select == "2":
-            redisController.getUserName()
+            redisController.importProduto()
+        elif select == "3":
+            redisController.updateProduto()
+        elif select == "4":
+            redisController.exportProduto()
+        elif select == "5":
+            redisController.deleteProduto()
         elif select == "CLS":
             clearConsole()
             return redisStart()

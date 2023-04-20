@@ -1,4 +1,5 @@
 import config as config
+import json
 
 def findSort():
     mydb = config.connect()
@@ -9,12 +10,12 @@ def findSort():
     mydoc = mycol.find({}, {
         "_id": 0,
         "nome": 1,
-        "email": 1,
-        "Compra": 1,
-        "Favorito": 1
+        "email": 1
     }).sort("nome")
     for x in mydoc:
+        print("\n===========================")
         print(x)
+        print("===========================\n")
 
 def findQuery(name):
     mydb = config.connect()
@@ -22,10 +23,12 @@ def findQuery(name):
     print("\n=========================")
     print("==== USUARIO BUSCADO ====") 
     print("=========================\n")
-    myquery = { "nome": name }
+    myquery = { "nome": {"$regex": name} }
     mydoc = mycol.find(myquery)
     for x in mydoc:
+        print("\n==========================")
         print(x)
+        print("==========================\n")
 
 def update(email, newName):
     mydb = config.connect()
@@ -59,12 +62,12 @@ def insert(name, email):
     print(x.inserted_id)
     print("Usuario cadastrado com sucesso.")
 
-def insertFavoritos(nomeProduto, emailUsuario):
+def insertFavoritos(codigoProduto, emailUsuario):
     mydb = config.connect()
     columnUsuarios = mydb.Usuario
     columnProdutos = mydb.Produto
     myqueryUsers = { "email": emailUsuario }
-    myqueryProdutos = { "nome": nomeProduto }
+    myqueryProdutos = { "codigo": codigoProduto }
     findUsuario = columnUsuarios.find(myqueryUsers)
     findProduto = columnProdutos.find(myqueryProdutos)
     createDictUser = {}
