@@ -1,4 +1,5 @@
 import config as config
+import app as app
 
 def findSort():
     mydb = config.connect()
@@ -55,6 +56,7 @@ def update(codigo):
         print("Dados editados com sucesso!")
     else:
         print("Opção não entendida!")
+        app.produtoStart()
 
     mycol.update_one(myquery, newvalues)
 
